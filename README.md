@@ -1,5 +1,6 @@
-Inclass Demo
-Problem Domain
+# Inclass Demo
+## Problem Domain
+
 You have been hired by a goat fan club called GoatPick to build an app that helps users determine the cutest goat picture out of a collection of photographs.
 
 Since catalogs are expensive to print and distribute, and goats need only the loyalest of fans, and GoatPick is a lean startup that needs to carefully watch its expenditures. GoatPick wants to feature only the most loved goats in its catalog that are the most likely to achieve loyal fandom.
@@ -16,7 +17,7 @@ The marketing team is not only interested in the total number of clicks, but als
 
 You are also responsible for the look and feel of the app, so don’t forget a custom font, color palette, layout with semantic HTML, and so on.
 
-To recap:
+#### To recap:
 Your app will randomly display two of these unique pictures at a time, the user should be able to click on their favorite. Once clicked, the images will rerender another set of random pictures. Although it is acceptable for the pictures to be shown back to back on today's iteration of this app, the two pictures rendered may not be the same.
 
 Example:
@@ -25,26 +26,32 @@ goat A / goat B goat C / goat A
 
 After choosing your favorite goat 15 times, the voting session will conclude, the user can press a view results "button" and the app will render a list showing all of the goats names, the number of times they were viewed, and the number of clicks received.
 
-What Do We Need?
-GOAT Constructor
-store our info on the goats
-name
-image
-likes
-views
-Executable code
-Event listeners
-handle the voting(click)
-increase the like on the goat that was clicked
-decrease the number of the voting rounds
-rerender new set of images
-show results button(click)
-function that will get random images - Math.random
-Notes
-for loop for counting rounds
-HTML we will need containers for images - JS is going to place these images
-Math.random function to help us with this randomization
-array for goats
-counters - likes, views
-button to allow users to click and view results
-event listener - listening to clicks on the images
+#### What Do We Need?
+
+#### GOAT Constructor
+
+- store our info on the goats
+    - name
+    - image
+    - likes
+    - views
+
+#### Executable code
+
+- Event listeners
+    - handle the voting(click)
+        - increase the like on the goat that was clicked
+        - decrease the number of the voting rounds
+        - rerender new set of images
+    - show results button(click)
+- function that will get random images - Math.random
+
+#### Notes
+
+- for loop for counting rounds
+- HTML we will need containers for images - JS is going to place these images
+    - Math.random function to help us with this randomization
+- array for goats
+- counters - likes, views
+- button to allow users to click and view results
+- event listener - listening to clicks on the images
