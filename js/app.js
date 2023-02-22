@@ -30,18 +30,34 @@ function Product(name, fileExtension = 'jpg') {
 
 
 // HELPER FUNCTIONS-UTILITIES 
+let indexArray = [];
 
 function renderImg() {
 
-    let imgOneIndex = randomImg();
-    let imgTwoIndex = randomImg();
-    let imgThreeIndex = randomImg();
+    
+    while(indexArray.length < 6) {
+        let randomNum = randomImg();
+        if(!indexArray.includes(randomNum)) {
+            indexArray.push(randomNum);
+        }
+    }
+    
+    console.log(indexArray);
+
+    // let imgOneIndex = randomImg();
+    // let imgTwoIndex = randomImg();
+    // let imgThreeIndex = randomImg();
 
     // COMPARE IMG 1 AND 2 AND RANDOMIZE IF SAME
-    while(imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
-        imgTwoIndex = randomImg();
-        imgThreeIndex = randomImg();
-    }
+    // while(imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
+    //     imgTwoIndex = randomImg();
+    //     imgThreeIndex = randomImg();
+    // }
+
+    let imgOneIndex = indexArray.pop();
+    let imgTwoIndex = indexArray.pop();
+    let imgThreeIndex = indexArray.pop();
+
 
     imgOne.src = productArray[imgOneIndex].image;
     imgOne.title = productArray[imgOneIndex].name;
