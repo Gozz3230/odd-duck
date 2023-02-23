@@ -1,19 +1,20 @@
 'use strict';
 
-
 // GLOBALS
 let productArray = [];
-let votingRounds = 25;
+let votingRounds = 20;
+// let votingRounds = 10;
 
 
 // DOM WINDOWS
 let imgContainer = document.getElementById('img-container');
-let imgOne = document.getElementById('img-One');
-console.log(imgOne);
-let imgTwo = document.getElementById('img-Two');
-let imgThree = document.getElementById('img-Three');
+let imgOne = document.getElementById('img-one');
+let imgTwo = document.getElementById('img-two');
+let imgThree = document.getElementById('img-three');
 let resultsBtn = document.getElementById('show-results-btn');
-let resultsList = document.getElementById('results-container');
+
+// CANVAS ELEMENT FOR CHART
+let ctx = document.getElementById('my-chart');
 
 // CONSTRUCTOR
 function Product(name, fileExtension = 'jpg') {
@@ -29,44 +30,98 @@ function Product(name, fileExtension = 'jpg') {
 
 // HELPER FUNCTIONS-UTILITIES 
 
+const indexArray = [];
+
 function renderImg() {
-
-    let imgOneIndex = randomImg();
-    let imgTwoIndex = randomImg();
-    let imgThreeIndex = randomImg();
-
-    // imgOne.src = productArray[randomIndex()].image;
-    // imgTwo.src = productArray[randomIndex()].image;
-
-    // COMPARE IMG 1 AND 2 AND RANDOMIZE IF SAME
-    while(imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
-        imgTwoIndex = randomImg();
-        imgThreeIndex = randomImg();
+    
+    while(indexArray.length < 6) {
+        let randomNum = randomImg();
+        if(!indexArray.includes(randomNum)) {
+            indexArray.unshift(randomNum);
+        }
     }
+    
+    console.log(indexArray);
 
+    
+    let imgOneIndex = indexArray.pop();
+    let imgTwoIndex = indexArray.pop();
+    let imgThreeIndex = indexArray.pop();
+    
+    
     imgOne.src = productArray[imgOneIndex].image;
     imgOne.title = productArray[imgOneIndex].name;
     imgOne.alt = `this is an image of ${productArray[imgOneIndex].name}`;
-
+    
     imgTwo.src = productArray[imgTwoIndex].image;
     imgTwo.title = productArray[imgTwoIndex].name;
     imgTwo.alt = `this is an image of ${productArray[imgTwoIndex].name}`;
-
+    
     imgThree.src = productArray[imgThreeIndex].image;
     imgThree.title = productArray[imgThreeIndex].name;
     imgThree.alt = `this is an image of ${productArray[imgTwoIndex].name}`;
-
+    
     // INCREASE VIEWS
-
+    
     productArray[imgOneIndex].views++;
     productArray[imgTwoIndex].views++;
     productArray[imgThreeIndex].views++;
 }
 
+
+
 function randomImg() {
     return Math.floor(Math.random() * productArray.length);
 }
 
+// HELPER FUNCTION TO RENDER CHART
+function renderChart() {
+
+    let productNames = [];
+    let productVotes = [];
+    let productViews = [];
+
+for (let i = 0; i < productArray.length; i++) {
+    productNames.push(productArray[i].name);
+    productVotes.push(productArray[i].votes);
+    productViews.push(productArray[i].views)
+}
+
+    let chartObj = {
+        type: 'bar',
+        data: {
+          labels: productNames,       
+          datasets: [{
+              label: '# of Votes',
+              data: productVotes,
+              borderWidth: 2,
+              borderColor: ['black'],
+              backgroundColor: ['#9ACD32']
+             },
+             {
+              label: '# of Views',
+              data: productViews, 
+              borderWidth: 2,
+              borderColor: ['black'],
+              backgroundColor: ['#FF8C00']
+            }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      };
+
+
+      // 2 ARGUMENTS FOR CHART CONSTRUCTOR. CANVAS ELEMENT, CONFIG OBJ WITH PRODUCT DATA
+      new Chart(ctx, chartObj);
+}
+
+
+// EVENT HANDLERS
 function handleImgClick(event) {
     let imgClick = event.target.title;
     console.dir(imgClick);
@@ -88,11 +143,9 @@ function handleImgClick(event) {
 
 function handleShowResults() {
     if(votingRounds === 0) {
-        for(let i =0; i < productArray.length; i++) {
-            let productListItem = document.createElement('li');
-            productListItem.textContent = `${productArray[i].name}: Views: ${productArray[i].views} & Votes: ${productArray[i].votes}`;
-            resultsList.appendChild(productListItem);
-        }
+      
+        renderChart();
+
         resultsBtn.removeEventListener('click', handleShowResults);
     }
 }
@@ -120,7 +173,7 @@ let unicorn = new Product('unicorn');
 let watercan = new Product('water-can');
 let wineglass = new Product('wine-glass');
 
-productArray.push(bag,banana,bathroom,boots,breakfast,bubblegum,chair,cthulhu,dogduck,dragon,pen,petsweep,scissors,shark,sweep,tauntaun,unicorn,watercan,wineglass); // THIS CAN BE REPLACED WITH THE ABOVE productArray.push(this);
+productArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, petsweep, scissors, shark, sweep, tauntaun, unicorn, watercan, wineglass); // THIS CAN BE REPLACED WITH THE ABOVE productArray.push(this);
 
 console.log(productArray);
 
