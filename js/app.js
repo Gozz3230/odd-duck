@@ -2,14 +2,13 @@
 
 // GLOBALS
 let productArray = [];
-let votingRounds = 25;
+let votingRounds = 20;
 // let votingRounds = 10;
 
 
 // DOM WINDOWS
 let imgContainer = document.getElementById('img-container');
 let imgOne = document.getElementById('img-one');
-console.log(imgOne);
 let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
 let resultsBtn = document.getElementById('show-results-btn');
@@ -30,53 +29,46 @@ function Product(name, fileExtension = 'jpg') {
 
 
 // HELPER FUNCTIONS-UTILITIES 
-let indexArray = [];
+
+const indexArray = [];
 
 function renderImg() {
-
     
     while(indexArray.length < 6) {
         let randomNum = randomImg();
         if(!indexArray.includes(randomNum)) {
-            indexArray.push(randomNum);
+            indexArray.unshift(randomNum);
         }
     }
     
     console.log(indexArray);
 
-    // let imgOneIndex = randomImg();
-    // let imgTwoIndex = randomImg();
-    // let imgThreeIndex = randomImg();
-
-    // COMPARE IMG 1 AND 2 AND RANDOMIZE IF SAME
-    // while(imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
-    //     imgTwoIndex = randomImg();
-    //     imgThreeIndex = randomImg();
-    // }
-
+    
     let imgOneIndex = indexArray.pop();
     let imgTwoIndex = indexArray.pop();
     let imgThreeIndex = indexArray.pop();
-
-
+    
+    
     imgOne.src = productArray[imgOneIndex].image;
     imgOne.title = productArray[imgOneIndex].name;
     imgOne.alt = `this is an image of ${productArray[imgOneIndex].name}`;
-
+    
     imgTwo.src = productArray[imgTwoIndex].image;
     imgTwo.title = productArray[imgTwoIndex].name;
     imgTwo.alt = `this is an image of ${productArray[imgTwoIndex].name}`;
-
+    
     imgThree.src = productArray[imgThreeIndex].image;
     imgThree.title = productArray[imgThreeIndex].name;
     imgThree.alt = `this is an image of ${productArray[imgTwoIndex].name}`;
-
+    
     // INCREASE VIEWS
-
+    
     productArray[imgOneIndex].views++;
     productArray[imgTwoIndex].views++;
     productArray[imgThreeIndex].views++;
 }
+
+
 
 function randomImg() {
     return Math.floor(Math.random() * productArray.length);
