@@ -2,8 +2,8 @@
 
 // GLOBALS
 let productArray = [];
-let votingRounds = 20;
-// let votingRounds = 10;
+// let votingRounds = 20;
+let votingRounds = 10;
 
 
 // DOM WINDOWS
@@ -124,7 +124,6 @@ for (let i = 0; i < productArray.length; i++) {
 // EVENT HANDLERS
 function handleImgClick(event) {
     let imgClick = event.target.title;
-    console.dir(imgClick);
 
     for(let i = 0; i < productArray.length; i++) {
         if(imgClick === productArray[i].name) {
@@ -138,6 +137,13 @@ function handleImgClick(event) {
 
     if(votingRounds === 0) {
         imgContainer.removeEventListener('click', handleImgClick);
+
+        // LOCAL STORAGE STARTS HERE
+        let stringifiedProducts = JSON.stringify(productArray);
+
+        console.log('Stringified Products >>> ', stringifiedProducts);
+
+        localStorage.setItem('myProducts', stringifiedProducts);
     }
 }
 
@@ -152,30 +158,63 @@ function handleShowResults() {
 
 // EXECUTABLES
 
+// LOCAL STORAGE CONTINUED
 
-let bag = new Product('bag');
-let banana = new Product('banana');
-let bathroom = new Product('bathroom');
-let boots = new Product('boots');
-let breakfast = new Product('breakfast');
-let bubblegum = new Product('bubblegum');
-let chair = new Product('chair');
-let cthulhu = new Product('cthulhu');
-let dogduck = new Product('dog-duck');
-let dragon = new Product('dragon');
-let pen = new Product('pen');
-let petsweep = new Product('pet-sweep');
-let scissors = new Product('scissors');
-let shark = new Product('shark');
-let sweep = new Product('sweep', 'png');
-let tauntaun = new Product('tauntaun',);
-let unicorn = new Product('unicorn');
-let watercan = new Product('water-can');
-let wineglass = new Product('wine-glass');
+let retreivedProducts = localStorage.getItem('myProducts');
 
-productArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, petsweep, scissors, shark, sweep, tauntaun, unicorn, watercan, wineglass); // THIS CAN BE REPLACED WITH THE ABOVE productArray.push(this);
+console.log('Products from LS >>>', retreivedProducts);
 
-console.log(productArray);
+let parsedProducts = JSON.parse(retreivedProducts);
+
+console.log('Parsed Products >>>>', parsedProducts);
+
+// REBUILD PRODUCTS USING THE CONSTRUCTOR
+
+if(retreivedProducts) {
+  for(let i = 0; i < parsedProducts.length; i++) {
+    if(parsedProducts[i].name === 'sweep') {
+      let reconstructedSweep = new Product(parsedProducts[i].name, 'png');
+      reconstructedSweep.views = parsedProducts[i].views;
+      reconstructedSweep.votes = parsedProducts[i].votes;
+      productArray.push(reconstructedSweep);
+    } else {
+        let reconstructedProduct = new Product(parsedProducts[i].name);
+        reconstructedProduct.views = parsedProducts[i].views;
+        reconstructedProduct.votes = parsedProducts[i].votes;
+        productArray.push(reconstructedProduct);
+    }
+  }
+
+} else {
+    let bag = new Product('bag');
+    let banana = new Product('banana');
+    let bathroom = new Product('bathroom');
+    let boots = new Product('boots');
+    let breakfast = new Product('breakfast');
+    let bubblegum = new Product('bubblegum');
+    let chair = new Product('chair');
+    let cthulhu = new Product('cthulhu');
+    let dogDuck = new Product('dog-duck');
+    let dragon = new Product('dragon');
+    let pen = new Product('pen');
+    let petSweep = new Product('pet-sweep');
+    let scissors = new Product('scissors');
+    let shark = new Product('shark');
+    let sweep = new Product('sweep', 'png');
+    let tauntaun = new Product('tauntaun',);
+    let unicorn = new Product('unicorn');
+    let waterCan = new Product('water-can');
+    let wineglass = new Product('wine-glass');
+
+
+    productArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineglass);
+}
+
+
+
+console.log('Product Array after if/else', productArray);
+console.log('Original Product Array', productArray);
+
 
 renderImg();
 
