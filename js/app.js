@@ -2,8 +2,8 @@
 
 // GLOBALS
 let productArray = [];
-let votingRounds = 20;
-// let votingRounds = 10;
+// let votingRounds = 20;
+let votingRounds = 10;
 
 
 // DOM WINDOWS
@@ -124,7 +124,6 @@ for (let i = 0; i < productArray.length; i++) {
 // EVENT HANDLERS
 function handleImgClick(event) {
     let imgClick = event.target.title;
-    console.dir(imgClick);
 
     for(let i = 0; i < productArray.length; i++) {
         if(imgClick === productArray[i].name) {
@@ -138,6 +137,13 @@ function handleImgClick(event) {
 
     if(votingRounds === 0) {
         imgContainer.removeEventListener('click', handleImgClick);
+
+        // LOCAL STORAGE STARTS HERE
+        let stringifiedProducts = JSON.stringify(productArray);
+
+        console.log('Stringified Products >>> ', stringifiedProducts);
+
+        localStorage.setItem('myProducts', stringifiedProducts);
     }
 }
 
@@ -152,6 +158,15 @@ function handleShowResults() {
 
 // EXECUTABLES
 
+// LOCAL STORAGE CONTINUED
+
+let retreivedProducts = localStorage.getItem('myProducts');
+
+console.log('Products from LS >>>', retreivedProducts);
+
+let parsedProducts = JSON.parse(retreivedProducts);
+
+console.log('Parsed Products >>>>', parsedProducts);
 
 let bag = new Product('bag');
 let banana = new Product('banana');
